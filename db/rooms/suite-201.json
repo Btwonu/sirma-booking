@@ -1,0 +1,9 @@
+{
+  "roomNumber": 201,
+  "type": "Suite",
+  "amenities": ["Mini Bar", "TV", "Wi-Fi", "Air Conditioning", "Jacuzzi"],
+  "maximumOccupancy": 4,
+  "pricePerNight": 350.00,
+  "cancellationFee": 75.00,
+  "status": "available"
+}

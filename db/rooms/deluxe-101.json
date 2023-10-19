@@ -1,0 +1,9 @@
+{
+  "roomNumber": 101,
+  "type": "Deluxe",
+  "amenities": ["Mini Bar", "TV", "Wi-Fi", "Air Conditioning"],
+  "maximumOccupancy": 2,
+  "pricePerNight": 200.00,
+  "cancellationFee": 50.00,
+  "status": "available"
+}
