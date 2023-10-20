@@ -1,7 +1,10 @@
 package com.stays.auth;
 
+import com.stays.util.Config;
 import com.stays.util.Input;
 import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONException;
 
 import java.io.Console;
 import java.io.IOException;
@@ -11,12 +14,17 @@ import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class AuthService {
     private static AuthService instance = null;
+    private final Path usersPath;
 
-    private AuthService() {}
+    private AuthService() {
+        Config config = new Config();
+        this.usersPath = Path.of(config.getEnv("USERS_PATH"));
+    }
 
     public static AuthService getInstance() {
         if (instance == null) {
@@ -71,31 +79,86 @@ public class AuthService {
 
     public void register(String firstName, String lastName, String username, String password) {
         System.out.println("REGISTER");
-        Path path = Path.of("C:\\Users\\4s\\IdeaProjects\\booking\\db\\auth\\users.json");
 
-        try {
-            String content = Files.readString(path);
-            System.out.println(content);
-            JSONArray ja = new JSONArray(content);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+        // TODO: Resolve users.json
+
+
         // Parse data
-            // read users.json
-            // convert json to users array
+        // read users.json
+        // convert json to users array
+        ArrayList<User> usersList = getAllUsers();
+        HashMap<String, User> usersMap = getUsersMap();
+
         // Conditional
-            // check if username exists in array
-                // if yes - abort "This username is taken!"
-                // try again?
-                // if not - Create user
-        // Create user
+        // check if username exists in array
+        // if yes - abort "This username is taken!"
+        // try again?
+        // if not - Create user
+        if (usersMap.get(username) != null) {
+            System.out.println("This username is taken!");
+        } else {
+            // Create user
             // generate uuid
             // create user instance
             // add user to users array
             // convert to json
+        }
     }
 
-//    public ArrayList<User> getAllUsers() {
-//
-//    }
+    /*
+    * Parse users.json file and
+    * return a list of User objects
+    */
+    public ArrayList<User> getAllUsers() {
+        ArrayList<User> usersList = new ArrayList<>();
+
+        try {
+            String usersContent = Files.readString(this.usersPath);
+            System.out.println(usersContent);
+            JSONArray usersJArray = new JSONArray(usersContent);
+
+            for (int i = 0; i < usersJArray.length(); i++) {
+                JSONObject userJ = usersJArray.getJSONObject(i);
+
+                User user = new User(
+                        (String) userJ.get("firstName"),
+                        (String) userJ.get("lastName"),
+                        (String) userJ.get("username")
+                );
+
+                usersList.add(user);
+            }
+        } catch (IOException | JSONException e) {
+            System.out.println("IO or JSON bad");
+        }
+
+        return usersList;
+    }
+
+    public HashMap<String, User> getUsersMap() {
+        HashMap<String, User> usersMap = new HashMap<>();
+
+        try {
+            String usersContent = Files.readString(this.usersPath);
+            System.out.println(usersContent);
+            JSONArray usersJArray = new JSONArray(usersContent);
+
+            for (int i = 0; i < usersJArray.length(); i++) {
+                JSONObject userJ = usersJArray.getJSONObject(i);
+
+                User user = new User(
+                        (String) userJ.get("firstName"),
+                        (String) userJ.get("lastName"),
+                        (String) userJ.get("username")
+                );
+
+                usersMap.put((String) userJ.get("username"), user);
+            }
+        } catch (IOException | JSONException e) {
+            System.out.println("IO or JSON bad");
+        }
+
+        return usersMap;
+    }
 }

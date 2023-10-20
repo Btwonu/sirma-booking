@@ -15,7 +15,7 @@ import static java.nio.file.Files.newDirectoryStream;
 public class Config {
     HashMap<String, String> vars = new HashMap<>();
 
-    Config() {
+    public Config() {
         String envPath = "C:\\Users\\4s\\IdeaProjects\\booking\\.env";
 
         try (BufferedReader br = new BufferedReader(new FileReader(envPath))) {
@@ -30,7 +30,7 @@ public class Config {
         }
     }
 
-    String getEnv(String var) {
+    public String getEnv(String var) {
         return vars.get(var);
     }
 }
