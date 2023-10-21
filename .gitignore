@@ -27,3 +27,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+src/com/stays/util/IOTest.java
+src/com/stays/util/Test.java
