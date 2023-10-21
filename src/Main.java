@@ -43,7 +43,8 @@ public class Main {
             }
 
             if (input.getCommand().equalsIgnoreCase("/login")) {
-                System.out.println("LOGIN");
+                AuthService authService = AuthService.getInstance();
+                authService.initLogin();
             }
 
             if (input.getCommand().equalsIgnoreCase("/rooms")) {

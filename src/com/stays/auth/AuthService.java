@@ -7,7 +7,9 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -55,7 +57,8 @@ public class AuthService {
             String line = scanner.nextLine();
 
             if (line.equalsIgnoreCase("y")) {
-                initRegistration();
+                this.initRegistration();
+                return;
             } else if (line.equalsIgnoreCase("n")) {
                 System.out.println("OK THEN");
             }
@@ -65,9 +68,59 @@ public class AuthService {
             String line = scanner.nextLine();
 
             if (line.equalsIgnoreCase("y")) {
-                register(firstName, lastName, username, password);
+                this.register(firstName, lastName, username, password);
             } else if (line.equalsIgnoreCase("n")) {
                 System.out.println("OK THEN");
+            }
+        }
+    }
+
+    public void initLogin() {
+        System.out.print("Enter your username: ");
+        String username = scanner.nextLine();
+
+        System.out.print("Enter your password: ");
+        String password = scanner.nextLine();
+
+        this.login(username, password);
+    }
+
+    /*
+    * Log a user in
+    */
+    public void login(String username, String password) {
+        // TODO:
+        // Look for username in users.json
+        // If present:
+            // attempt to log in
+        // If not:
+            // There is no such user!
+        HashMap<String, User> usersMap = getUsersMap();
+
+        if (usersMap.get(username) == null) {
+            // Username doesn't exist
+            System.out.println("There is no such record in our DB");
+            System.out.print("Try again? [y/n]: ");
+
+            String line = scanner.nextLine();
+
+            if (line.equalsIgnoreCase("y")) {
+                this.initLogin();
+                return;
+            } else if (line.equalsIgnoreCase("n")) {
+                System.out.println("OK THEN");
+            }
+        } else {
+            // Attempt user login
+            String storedPassword = usersMap.get(username).getStoredPassword();
+            String storedSalt = usersMap.get(username).getStoredSalt();
+
+            boolean passwordsMatch = PasswordHasher.verifyPassword(password, storedPassword, storedSalt);
+
+            if (passwordsMatch) {
+                System.out.println("Login successful");
+            } else {
+                System.out.println("Password is incorrect");
             }
         }
     }
@@ -87,22 +140,28 @@ public class AuthService {
             String line = scanner.nextLine();
 
             if (line.equalsIgnoreCase("y")) {
-                initRegistration();
+                this.initRegistration();
             } else if (line.equalsIgnoreCase("n")) {
                 System.out.println("OK THEN");
             }
         } else {
             // Create new user
             User newUser = new User(firstName, lastName, username);
-
             JSONObject newUserJObject = new JSONObject(newUser);
-            newUserJObject.put("password", this.hashPassword(password));
 
-            ArrayList<User> usersList = this.getUsersList();
-            usersList.add(newUser);
+            byte[] salt = PasswordHasher.generateSalt();
+            byte[] hashedPasswordByteArray = PasswordHasher.hashPassword(password, salt);
+
+            String saltString = Base64.getEncoder().encodeToString(salt);
+            String hashedPasswordString = Base64.getEncoder().encodeToString(hashedPasswordByteArray);
+
+            newUserJObject.put("salt", saltString);
+            newUserJObject.put("password", hashedPasswordString);
+
+            JSONArray usersJArray = getUsersJArray();
+            usersJArray.put(newUserJObject);
 
             try {
-                JSONArray usersJArray = new JSONArray(usersList);
                 Files.writeString(this.usersPath.resolve("users.json"), usersJArray.toString(4));
             } catch (IOException e) {
                 System.out.println("Cannot write to user json array");
@@ -112,14 +171,13 @@ public class AuthService {
     }
 
     /*
-    * Parse users.json file and return a list of User objects
+    * Parse users file and return a list of User objects
     */
     public ArrayList<User> getUsersList() {
         ArrayList<User> usersList = new ArrayList<>();
 
         try {
             String usersContent = Files.readString(this.usersPath.resolve("users.json"));
-            System.out.println(usersContent);
             JSONArray usersJArray = new JSONArray(usersContent);
 
             for (int i = 0; i < usersJArray.length(); i++) {
@@ -141,14 +199,13 @@ public class AuthService {
     }
 
     /*
-    * Parse users.json file and return a map of User objects
+    * Parse users file and return a map of User objects
     */
     public HashMap<String, User> getUsersMap() {
         HashMap<String, User> usersMap = new HashMap<>();
 
         try {
             String usersContent = Files.readString(this.usersPath.resolve("users.json"));
-            System.out.println(usersContent);
             JSONArray usersJArray = new JSONArray(usersContent);
 
             for (int i = 0; i < usersJArray.length(); i++) {
@@ -169,8 +226,22 @@ public class AuthService {
         return usersMap;
     }
 
-    private String hashPassword(String password) {
-        // TODO: Add hashing algorithm
-        return "123" + password;
+    public JSONArray getUsersJArray() {
+        JSONArray usersJArray = null;
+
+        try {
+            String usersContent = Files.readString(this.usersPath.resolve("users.json"));
+            usersJArray = new JSONArray(usersContent);
+
+        } catch (IOException | JSONException e) {
+            System.out.println("IO or JSON bad");
+        }
+
+        return usersJArray;
     }
+
+    // Create user
+    // Read user
+    // Update user
+    // Delete user
 }

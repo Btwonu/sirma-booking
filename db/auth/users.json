@@ -1,44 +1,18 @@
 [
     {
-        "firstName": "John",
-        "lastName": "Doe",
-        "id": "0e806ed9-4d8d-418c-b78f-ee60bae301c6",
-        "username": "johndoe"
-    },
-    {
-        "firstName": "Alice",
-        "lastName": "Smith",
-        "id": "c0e04484-99aa-4595-a91e-9c4951a0d436",
-        "username": "alicesmith"
-    },
-    {
-        "firstName": "Sarah",
-        "lastName": "Johnson",
-        "id": "b20866be-8702-4fd3-8728-f3b697fc80eb",
-        "username": "sarahj"
-    },
-    {
-        "firstName": "Michael",
-        "lastName": "Williams",
-        "id": "a986cd61-3bbb-4770-a8eb-5326ebaa2624",
-        "username": "michaelw"
-    },
-    {
-        "firstName": "Emily",
-        "lastName": "Davis",
-        "id": "97541b25-4a0c-4804-b638-96ea21c01721",
-        "username": "emilyd"
-    },
-    {
         "firstName": "Val",
         "lastName": "Delchev",
-        "id": "8449473b-99fc-4c7e-b25e-ae2ba69230de",
+        "password": "ETYqN2tbnb4M0J10rCBjtg==",
+        "salt": "+BG0iZQwqvWACVh4ZlnDmw==",
+        "id": "8d1fad09-c0f4-4e8d-9f1a-1f65fd4a01f3",
         "username": "4s"
     },
     {
-        "firstName": "Val",
-        "lastName": "Delchev",
-        "id": "ead83343-a9a1-449d-80c9-9768e70b72d0",
-        "username": "btwonu"
+        "firstName": "Kimbo",
+        "lastName": "Borislavov",
+        "password": "ST7XHTnRIhCtUQRYieMmgQ==",
+        "salt": "az1n1qCSIG4X/ZO0tMj+Yg==",
+        "id": "12ca685a-9ed4-4d0a-b148-8739adfea914",
+        "username": "kgb"
     }
 ]
