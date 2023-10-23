@@ -3,7 +3,7 @@
   "type": "Single",
   "amenities": ["TV", "Wi-Fi", "Air Conditioning", "Iron"],
   "maximumOccupancy": 1,
-  "pricePerNight": 150.00,
+  "price": 150.00,
   "cancellationFee": 30.00,
   "status": "available"
 }

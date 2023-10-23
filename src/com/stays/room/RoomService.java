@@ -3,6 +3,7 @@ package com.stays.room;
 import com.stays.auth.User;
 import com.stays.room.Room;
 import com.stays.util.Config;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,8 +13,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
-import static com.stays.room.Room.RoomType.DELUXE;
+import static com.stays.room.Room.RoomType.*;
 
 public class RoomService {
     private final Path roomsPath;
@@ -36,24 +38,57 @@ public class RoomService {
             return roomsList;
         }
 
-        // Create a directory stream for JSON files
         try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(this.roomsPath, "*.json")) {
             for (Path filePath : directoryStream) {
                 String roomContent = Files.readString(filePath);
                 JSONObject roomJObject = new JSONObject(roomContent);
-                System.out.println(roomJObject);
-                String type = roomJObject.getString("type");
+                String roomTypeString = roomJObject.getString("type");
+                JSONArray amenitiesJArray = roomJObject.getJSONArray("amenities");
 
-                RoomType roomType = Room.RoomType.valueOf(type);
+                Room.RoomType roomType = Room.RoomType.valueOf(roomTypeString.toUpperCase());
+                ArrayList<String> amenitiesList = new ArrayList<>();
 
-                switch(roomType) {
-                    case DELUXE -> System.out.println("Deluxx");
+                for (int i = 0; i < amenitiesJArray.length(); i++) {
+                    String amenity = (String) amenitiesJArray.get(i);
+                    amenitiesList.add(amenity);
                 }
-                // Create room instance
-                // Add room to list
+
+                Room newRoom = switch(roomType) {
+                    case DELUXE -> new DeluxeRoom(
+                            roomJObject.getInt("roomNumber"),
+                            roomJObject.getInt("maximumOccupancy"),
+                            roomJObject.getBigDecimal("price"),
+                            roomJObject.getBigDecimal("cancellationFee"),
+                            amenitiesList
+                    );
+                    case SINGLE -> new SingleRoom(
+                            roomJObject.getInt("roomNumber"),
+                            roomJObject.getInt("maximumOccupancy"),
+                            roomJObject.getBigDecimal("price"),
+                            roomJObject.getBigDecimal("cancellationFee"),
+                            amenitiesList
+                    );
+                    case DOUBLE -> new DoubleRoom(
+                            roomJObject.getInt("roomNumber"),
+                            roomJObject.getInt("maximumOccupancy"),
+                            roomJObject.getBigDecimal("price"),
+                            roomJObject.getBigDecimal("cancellationFee"),
+                            amenitiesList
+                    );
+                    case SUITE -> new SuiteRoom(
+                            roomJObject.getInt("roomNumber"),
+                            roomJObject.getInt("maximumOccupancy"),
+                            roomJObject.getBigDecimal("price"),
+                            roomJObject.getBigDecimal("cancellationFee"),
+                            amenitiesList
+                    );
+                };
+
+                roomsList.add(newRoom);
             }
         } catch (IOException | JSONException e) {
             System.out.println("IO or JSON bad");
+            e.printStackTrace();
         }
 
         return roomsList;

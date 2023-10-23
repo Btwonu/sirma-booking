@@ -3,7 +3,7 @@
   "type": "Double",
   "amenities": ["Mini Bar", "TV", "Wi-Fi", "Balcony"],
   "maximumOccupancy": 2,
-  "pricePerNight": 250.00,
+  "price": 250.00,
   "cancellationFee": 60.00,
   "status": "available"
 }

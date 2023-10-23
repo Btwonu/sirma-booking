@@ -16,13 +16,13 @@ public abstract class Room {
         SINGLE, DOUBLE, DELUXE, SUITE
     }
 
-    Room(int roomNumber, int maximumOccupancy, BigDecimal price, BigDecimal cancellationFee, String[] amenities, RoomType roomType) {
+    Room(int roomNumber, int maximumOccupancy, BigDecimal price, BigDecimal cancellationFee, ArrayList<String> amenities, RoomType roomType) {
         this.id = UUID.randomUUID();
         this.roomNumber = roomNumber;
         this.maximumOccupancy = maximumOccupancy;
         this.price = price;
         this.cancellationFee = cancellationFee;
-        this.amenities = new ArrayList<>(Arrays.asList(amenities));
+        this.amenities = amenities;
         this.bookedDates = new ArrayList<>();
         this.roomType = roomType;
     }
