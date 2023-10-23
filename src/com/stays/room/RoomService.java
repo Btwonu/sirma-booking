@@ -57,6 +57,9 @@ public class RoomService {
 
     public ArrayList<Room> filterRoomsByDate(LocalDate from, LocalDate to) {
         ArrayList<Room> roomsList = getRoomsList();
+        // iterate over rooms
+        // f/e room iterate over room date ranges
+        // check if date range passed from user is intersecting with any of the date ranges of the room
         return new ArrayList<>();
     }
 
