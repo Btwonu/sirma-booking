@@ -1,5 +1,6 @@
 package com.stays.auth;
 
+import com.stays.Main;
 import com.stays.util.Config;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -119,6 +120,7 @@ public class AuthService {
 
             if (passwordsMatch) {
                 System.out.println("Login successful");
+                Main.loginLoop();
             } else {
                 System.out.println("Password is incorrect");
             }

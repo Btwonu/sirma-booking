@@ -1,19 +1,67 @@
 package com.stays.room;
 
+import com.stays.auth.User;
 import com.stays.room.Room;
+import com.stays.util.Config;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static com.stays.room.Room.RoomType.DELUXE;
+
 public class RoomService {
+    private final Path roomsPath;
     ArrayList<Room> rooms = new ArrayList<>();
+
+    public RoomService() {
+        Config config = new Config();
+        this.roomsPath = Path.of(config.getEnv("ROOMS_PATH"));
+    }
 
     public void loadRooms(Path path) {
         System.out.printf("Load rooms from: %s", path);
     }
 
-    public ArrayList<Room> listRooms() {
-        return this.rooms;
+    public ArrayList<Room> getRoomsList() {
+        ArrayList<Room> roomsList = new ArrayList<>();
+
+        if (!Files.isDirectory(this.roomsPath)) {
+            System.err.println("The specified path is not a directory.");
+            return roomsList;
+        }
+
+        // Create a directory stream for JSON files
+        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(this.roomsPath, "*.json")) {
+            for (Path filePath : directoryStream) {
+                String roomContent = Files.readString(filePath);
+                JSONObject roomJObject = new JSONObject(roomContent);
+                System.out.println(roomJObject);
+                String type = roomJObject.getString("type");
+
+                RoomType roomType = Room.RoomType.valueOf(type);
+
+                switch(roomType) {
+                    case DELUXE -> System.out.println("Deluxx");
+                }
+                // Create room instance
+                // Add room to list
+            }
+        } catch (IOException | JSONException e) {
+            System.out.println("IO or JSON bad");
+        }
+
+        return roomsList;
+    }
+
+    public ArrayList<Room> filterRoomsByDate(LocalDate from, LocalDate to) {
+        getRoomsList();
+        return new ArrayList<>();
     }
 
     // Create room (admin)
@@ -36,6 +84,17 @@ public class RoomService {
     // find room file in rooms directory
     // delete file
 
-    // Filter by type
-    // 
+    // Filters
+
+    // available in date range
+    // get user input
+    // get room list
+    // filter rooms available in date range
+
+    // in price range
+
+    // by room type
+
+    // containing amenities
+
 }

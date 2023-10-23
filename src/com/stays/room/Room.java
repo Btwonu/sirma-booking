@@ -11,16 +11,25 @@ public abstract class Room {
     BigDecimal cancellationFee;
     ArrayList<String> amenities;
     ArrayList<Date> bookedDates;
+    RoomType roomType;
+    public enum RoomType {
+        SINGLE, DOUBLE, DELUXE, SUITE
+    }
 
-    Room(int roomNumber, int maximumOccupancy, BigDecimal price, BigDecimal cancellationFee, String[] amenities) {
+    Room(int roomNumber, int maximumOccupancy, BigDecimal price, BigDecimal cancellationFee, String[] amenities, RoomType roomType) {
         this.id = UUID.randomUUID();
         this.roomNumber = roomNumber;
         this.maximumOccupancy = maximumOccupancy;
         this.price = price;
         this.cancellationFee = cancellationFee;
-        this.amenities = Arrays.asList(amenities);
+        this.amenities = new ArrayList<>(Arrays.asList(amenities));
         this.bookedDates = new ArrayList<>();
+        this.roomType = roomType;
     }
 
     abstract void book();
+
+    public RoomType getRoomType() {
+        return this.roomType;
+    }
 }

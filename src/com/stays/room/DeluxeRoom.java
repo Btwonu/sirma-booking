@@ -3,9 +3,8 @@ package com.stays.room;
 import java.math.BigDecimal;
 
 public class DeluxeRoom extends Room {
-
     public DeluxeRoom(int roomNumber, int maximumOccupancy, BigDecimal price, BigDecimal cancellationFee, String[] amenities) {
-        super(roomNumber, maximumOccupancy, price, cancellationFee, amenities);
+        super(roomNumber, maximumOccupancy, price, cancellationFee, amenities, RoomType.DELUXE);
     }
     @Override
     public void book() {
