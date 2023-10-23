@@ -42,47 +42,8 @@ public class RoomService {
             for (Path filePath : directoryStream) {
                 String roomContent = Files.readString(filePath);
                 JSONObject roomJObject = new JSONObject(roomContent);
-                String roomTypeString = roomJObject.getString("type");
-                JSONArray amenitiesJArray = roomJObject.getJSONArray("amenities");
 
-                Room.RoomType roomType = Room.RoomType.valueOf(roomTypeString.toUpperCase());
-                ArrayList<String> amenitiesList = new ArrayList<>();
-
-                for (int i = 0; i < amenitiesJArray.length(); i++) {
-                    String amenity = (String) amenitiesJArray.get(i);
-                    amenitiesList.add(amenity);
-                }
-
-                Room newRoom = switch(roomType) {
-                    case DELUXE -> new DeluxeRoom(
-                            roomJObject.getInt("roomNumber"),
-                            roomJObject.getInt("maximumOccupancy"),
-                            roomJObject.getBigDecimal("price"),
-                            roomJObject.getBigDecimal("cancellationFee"),
-                            amenitiesList
-                    );
-                    case SINGLE -> new SingleRoom(
-                            roomJObject.getInt("roomNumber"),
-                            roomJObject.getInt("maximumOccupancy"),
-                            roomJObject.getBigDecimal("price"),
-                            roomJObject.getBigDecimal("cancellationFee"),
-                            amenitiesList
-                    );
-                    case DOUBLE -> new DoubleRoom(
-                            roomJObject.getInt("roomNumber"),
-                            roomJObject.getInt("maximumOccupancy"),
-                            roomJObject.getBigDecimal("price"),
-                            roomJObject.getBigDecimal("cancellationFee"),
-                            amenitiesList
-                    );
-                    case SUITE -> new SuiteRoom(
-                            roomJObject.getInt("roomNumber"),
-                            roomJObject.getInt("maximumOccupancy"),
-                            roomJObject.getBigDecimal("price"),
-                            roomJObject.getBigDecimal("cancellationFee"),
-                            amenitiesList
-                    );
-                };
+                Room newRoom = RoomManager.createRoom(roomJObject);
 
                 roomsList.add(newRoom);
             }
@@ -95,7 +56,7 @@ public class RoomService {
     }
 
     public ArrayList<Room> filterRoomsByDate(LocalDate from, LocalDate to) {
-        getRoomsList();
+        ArrayList<Room> roomsList = getRoomsList();
         return new ArrayList<>();
     }
 
