@@ -38,4 +38,27 @@ public abstract class Room {
     public ArrayList<DateRange> getBookedDates() {
         return this.bookedDates;
     }
+
+    int getFloor() {
+        int x = this.roomNumber;
+
+        while (x > 9) {
+            x /= 10;
+        }
+
+        return x;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("===============================================================%n"));
+        sb.append(String.format("Type: %s%n", this.roomType));
+        sb.append(String.format("Occupancy: %d%n", this.maximumOccupancy));
+        sb.append(String.format("Floor: %d%n", this.getFloor()));
+        sb.append(String.format("Has: %s%n", String.join(", ", this.amenities)));
+        sb.append(String.format("Price: %.2f%n", this.price));
+
+        return sb.toString();
+    }
 }

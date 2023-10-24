@@ -8,7 +8,6 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
@@ -18,6 +17,7 @@ public class AuthService {
     private static AuthService instance = null;
     private final Path usersPath;
     private final Scanner scanner = new Scanner(System.in);
+    private User currentUser;
 
     private AuthService() {
         Config config = new Config();
@@ -90,12 +90,6 @@ public class AuthService {
     * Log a user in
     */
     public void login(String username, String password) {
-        // TODO:
-        // Look for username in users.json
-        // If present:
-            // attempt to log in
-        // If not:
-            // There is no such user!
         HashMap<String, User> usersMap = getUsersMap();
 
         if (usersMap.get(username) == null) {
@@ -119,8 +113,9 @@ public class AuthService {
             boolean passwordsMatch = PasswordHasher.verifyPassword(password, storedPassword, storedSalt);
 
             if (passwordsMatch) {
-                System.out.println("Login successful");
+                setUser(usersMap.get(username));
                 Main.loginLoop();
+                System.out.println("Login successful");
             } else {
                 System.out.println("Password is incorrect");
             }
@@ -240,6 +235,14 @@ public class AuthService {
         }
 
         return usersJArray;
+    }
+
+    void setUser(User user) {
+        this.currentUser = user;
+    }
+
+    public User getUser() {
+        return this.currentUser;
     }
 
     // Create user

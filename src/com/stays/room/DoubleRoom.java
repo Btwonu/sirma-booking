@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class DoubleRoom extends Room {
     public DoubleRoom(int roomNumber, int maximumOccupancy, BigDecimal price, BigDecimal cancellationFee, ArrayList<DateRange> bookedDates, ArrayList<String> amenities) {
-        super(roomNumber, maximumOccupancy, price, cancellationFee, bookedDates, amenities, RoomType.DELUXE);
+        super(roomNumber, maximumOccupancy, price, cancellationFee, bookedDates, amenities, RoomType.DOUBLE);
     }
     @Override
     public void book() {

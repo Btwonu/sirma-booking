@@ -7,22 +7,16 @@ import com.stays.room.RoomService;
 import com.stays.util.Input;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
-//        String line = scanner.nextLine();
-//        Input input = new Input(line);
-//
-//        String command = input.getCommand();
-//        Object[] arguments = input.getArguments();
-//
-//        System.out.printf("Command: %s, arguments: %s", command, Arrays.toString(arguments));
+        initialLoop();
+    }
 
+    public static void initialLoop() {
         System.out.println("If you need help, please type /help");
 
         while (true) {
@@ -53,12 +47,20 @@ public class Main {
             }
 
             if (input.getCommand().equalsIgnoreCase("/rooms")) {
-                System.out.println("ROOMS");
+                RoomService roomService = new RoomService();
+                ArrayList<Room> roomsList = roomService.getRoomsList();
+
+                int i = 0;
+                for (Room room : roomsList) {
+                    System.out.printf("%d. %s", ++i, room);
+                }
             }
         }
     }
 
     public static void loginLoop() {
+        AuthService authService = AuthService.getInstance();
+        System.out.printf("Welcome %s%n", authService.getUser().getUsername());
         System.out.println("If you need help, please type /help");
 
         while (true) {
@@ -73,7 +75,7 @@ public class Main {
 
             if (input.getCommand().equalsIgnoreCase("/help")) {
                 System.out.println("To review your profile, use /profile");
-                System.out.println("To book a room in a date range, use /book {start_date} {end_date}. Please enter your dates in a `dd.mm.yyyy format`");
+                System.out.println("To find an available room in a date range, use /filter {start_date} {end_date}. Please enter your dates in a `dd.mm.yyyy` format");
                 System.out.println("Use /exit to leave");
             }
 
@@ -81,12 +83,17 @@ public class Main {
                 System.out.println("TODO: Show profile");
             }
 
-            if (input.getCommand().equalsIgnoreCase("/book")) {
+            if (input.getCommand().equalsIgnoreCase("/filter")) {
                 System.out.println(Arrays.toString(input.getArguments()));
                 RoomService roomService = new RoomService();
                 RoomController roomController = new RoomController(roomService);
-                roomController.getRoomsInRange(input.getArguments());
-                // TODO: Print rooms
+                List<Room> roomsList = roomController.getRoomsInRange(input.getArguments());
+
+                System.out.println("You can book a room by using /book {room_number}");
+                int i = 0;
+                for (Room room : roomsList) {
+                    System.out.printf("%d. %s", ++i, room);
+                }
             }
         }
     }
