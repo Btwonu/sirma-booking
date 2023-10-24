@@ -26,7 +26,6 @@ public abstract class Room {
         this.cancellationFee = cancellationFee;
         this.amenities = amenities;
         this.bookedDates = bookedDates;
-        this.bookedDates = new ArrayList<>();
         this.roomType = roomType;
     }
 
@@ -34,5 +33,9 @@ public abstract class Room {
 
     public RoomType getRoomType() {
         return this.roomType;
+    }
+
+    public ArrayList<DateRange> getBookedDates() {
+        return this.bookedDates;
     }
 }

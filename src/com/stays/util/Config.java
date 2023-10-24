@@ -16,7 +16,7 @@ public class Config {
     HashMap<String, String> vars = new HashMap<>();
 
     public Config() {
-        String envPath = "/home/btwonu/Desktop/sirma-booking/.env";
+        String envPath = "C:\\Users\\4s\\IdeaProjects\\booking\\.env";
 
         try (BufferedReader br = new BufferedReader(new FileReader(envPath))) {
             String line;

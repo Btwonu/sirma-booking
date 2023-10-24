@@ -3,6 +3,7 @@ package com.stays.room;
 import com.stays.auth.User;
 import com.stays.room.Room;
 import com.stays.util.Config;
+import com.stays.util.DateRange;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +15,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.stays.room.Room.RoomType.*;
 
@@ -55,12 +57,21 @@ public class RoomService {
         return roomsList;
     }
 
-    public ArrayList<Room> filterRoomsByDate(LocalDate from, LocalDate to) {
+    public List<Room> filterRoomsByDate(LocalDate from, LocalDate to) {
         ArrayList<Room> roomsList = getRoomsList();
-        // iterate over rooms
-        // f/e room iterate over room date ranges
-        // check if date range passed from user is intersecting with any of the date ranges of the room
-        return new ArrayList<>();
+        DateRange userDateRange = new DateRange(from, to);
+
+        List<Room> filteredRooms = roomsList.stream().filter(r -> {
+            for (DateRange dr : r.getBookedDates()) {
+                if (userDateRange.isIntersecting(dr)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }).toList();
+
+        return filteredRooms;
     }
 
     // Create room (admin)

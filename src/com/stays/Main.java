@@ -86,6 +86,7 @@ public class Main {
                 RoomService roomService = new RoomService();
                 RoomController roomController = new RoomController(roomService);
                 roomController.getRoomsInRange(input.getArguments());
+                // TODO: Print rooms
             }
         }
     }

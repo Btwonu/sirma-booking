@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RoomController {
     private final RoomService roomService;
@@ -14,7 +15,7 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-    public ArrayList<Room> getRoomsInRange(String[] args) {
+    public List<Room> getRoomsInRange(String[] args) {
         String dateFormat = "dd.MM.yyyy";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
 
