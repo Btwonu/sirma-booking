@@ -11,6 +11,7 @@ import java.util.*;
 
 public class Main {
     static final Scanner scanner = new Scanner(System.in);
+    static Map<Integer, Room> currentRoomMap = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         initialLoop();
@@ -93,6 +94,16 @@ public class Main {
                 int i = 0;
                 for (Room room : roomsList) {
                     System.out.printf("%d. %s", ++i, room);
+                    currentRoomMap.put(i, room);
+                }
+            }
+
+            if (input.getCommand().equalsIgnoreCase("/book")) {
+                if (currentRoomMap.isEmpty()) {
+                    System.out.println("There are no rooms to book!");
+                } else {
+                    int roomNumber = Integer.parseInt(input.getArguments()[0]);
+                    System.out.println(currentRoomMap.get(roomNumber));
                 }
             }
         }
