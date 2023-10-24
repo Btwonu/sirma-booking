@@ -2,8 +2,22 @@
   "roomNumber": 301,
   "type": "Single",
   "amenities": ["TV", "Wi-Fi", "Air Conditioning", "Iron"],
+  "bookedDates": [
+    {
+      "from": "12.03.2022",
+      "to": "14.03.2022"
+    },
+    {
+      "from": "22.04.2023",
+      "to": "24.04.2023"
+    },
+    {
+      "from": "10.10.2023",
+      "to": "12.10.2023"
+    }
+  ],
   "maximumOccupancy": 1,
-  "pricePerNight": 150.00,
+  "price": 150.00,
   "cancellationFee": 30.00,
   "status": "available"
 }

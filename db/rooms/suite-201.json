@@ -2,8 +2,22 @@
   "roomNumber": 201,
   "type": "Suite",
   "amenities": ["Mini Bar", "TV", "Wi-Fi", "Air Conditioning", "Jacuzzi"],
+  "bookedDates": [
+    {
+      "from": "10.05.2022",
+      "to": "20.05.2022"
+    },
+    {
+      "from": "05.08.2023",
+      "to": "09.08.2023"
+    },
+    {
+      "from": "24.12.2023",
+      "to": "27.12.2023"
+    }
+  ],
   "maximumOccupancy": 4,
-  "pricePerNight": 350.00,
+  "price": 350.00,
   "cancellationFee": 75.00,
   "status": "available"
 }

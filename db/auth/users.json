@@ -1,37 +1,18 @@
 [
-  {
-    "id": "3d6e3835-1f3a-4d8c-95f7-dc4a71c5f65f",
-    "firstName": "John",
-    "lastName": "Doe",
-    "username": "johndoe",
-    "password": "securepass123"
-  },
-  {
-    "id": "b0b1e548-4e5d-47d1-a7d2-781f812d98b7",
-    "firstName": "Alice",
-    "lastName": "Smith",
-    "username": "alicesmith",
-    "password": "p@ssw0rd"
-  },
-  {
-    "id": "a5c8ea3d-ea33-4b20-8a62-52f25e5c3b0f",
-    "firstName": "Sarah",
-    "lastName": "Johnson",
-    "username": "sarahj",
-    "password": "sarahpass"
-  },
-  {
-    "id": "9b4f65cf-7a80-442d-ae9c-8d1b3c9a8d9e",
-    "firstName": "Michael",
-    "lastName": "Williams",
-    "username": "michaelw",
-    "password": "michaelpassword"
-  },
-  {
-    "id": "f2d8c31b-e0c4-4e84-ba69-9ab399825a5c",
-    "firstName": "Emily",
-    "lastName": "Davis",
-    "username": "emilyd",
-    "password": "emilypass123"
-  }
+    {
+        "firstName": "Val",
+        "lastName": "Delchev",
+        "password": "ETYqN2tbnb4M0J10rCBjtg==",
+        "salt": "+BG0iZQwqvWACVh4ZlnDmw==",
+        "id": "8d1fad09-c0f4-4e8d-9f1a-1f65fd4a01f3",
+        "username": "4s"
+    },
+    {
+        "firstName": "Kimbo",
+        "lastName": "Borislavov",
+        "password": "ST7XHTnRIhCtUQRYieMmgQ==",
+        "salt": "az1n1qCSIG4X/ZO0tMj+Yg==",
+        "id": "12ca685a-9ed4-4d0a-b148-8739adfea914",
+        "username": "kgb"
+    }
 ]
