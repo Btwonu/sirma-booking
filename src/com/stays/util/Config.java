@@ -3,22 +3,20 @@ package com.stays.util;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Map;
-
-import static java.nio.file.Files.newDirectoryStream;
 
 public class Config {
+    private static Config instance = null;
     HashMap<String, String> vars = new HashMap<>();
 
-    public Config() {
-        String envPath = "C:\\Users\\4s\\IdeaProjects\\booking\\.env";
+    private Config() {
+        Path root = FileSystems.getDefault().getPath("").toAbsolutePath();
+        Path envPath = Paths.get(root.toString(),".env");
 
-        try (BufferedReader br = new BufferedReader(new FileReader(envPath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(envPath.toString()))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] args = line.split("=");
@@ -28,6 +26,14 @@ public class Config {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Config getInstance() {
+        if (instance == null) {
+            instance = new Config();
+        }
+
+        return instance;
     }
 
     public String getEnv(String var) {

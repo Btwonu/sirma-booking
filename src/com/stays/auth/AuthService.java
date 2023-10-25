@@ -20,7 +20,7 @@ public class AuthService {
     private User currentUser;
 
     private AuthService() {
-        Config config = new Config();
+        Config config = Config.getInstance();
         this.usersPath = Path.of(config.getEnv("USERS_PATH"));
     }
 

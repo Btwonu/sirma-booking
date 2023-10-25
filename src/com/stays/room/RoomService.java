@@ -1,7 +1,5 @@
 package com.stays.room;
 
-import com.stays.auth.User;
-import com.stays.room.Room;
 import com.stays.util.Config;
 import com.stays.util.DateRange;
 import org.json.JSONArray;
@@ -20,16 +18,21 @@ import java.util.stream.Collectors;
 import static com.stays.room.Room.RoomType.*;
 
 public class RoomService {
+    private static RoomService instance = null;
     private final Path roomsPath;
     ArrayList<Room> rooms = new ArrayList<>();
 
     public RoomService() {
-        Config config = new Config();
+        Config config = Config.getInstance();
         this.roomsPath = Path.of(config.getEnv("ROOMS_PATH"));
     }
 
-    public void loadRooms(Path path) {
-        System.out.printf("Load rooms from: %s", path);
+    public static RoomService getInstance() {
+        if (instance == null) {
+            instance = new RoomService();
+        }
+
+        return instance;
     }
 
     public ArrayList<Room> getRoomsList() {
@@ -61,7 +64,7 @@ public class RoomService {
         ArrayList<Room> roomsList = getRoomsList();
         DateRange userDateRange = new DateRange(from, to);
 
-        List<Room> filteredRooms = roomsList.stream().filter(r -> {
+        return roomsList.stream().filter(r -> {
             for (DateRange dr : r.getBookedDates()) {
                 if (userDateRange.isIntersecting(dr)) {
                     return false;
@@ -70,41 +73,5 @@ public class RoomService {
 
             return true;
         }).toList();
-
-        return filteredRooms;
     }
-
-    // Create room (admin)
-    // get room details
-    // instantiate room
-    // create a new room file and write
-
-    // Read rooms
-    // iterate over rooms directory
-    // f/e room, read room
-    // instantiate room
-    // add room to list/map
-
-    // Update room (admin | booking)
-    // get (updated) room details
-    // find room file in rooms directory
-    // overwrite file with new data
-
-    // Delete room (admin)
-    // find room file in rooms directory
-    // delete file
-
-    // Filters
-
-    // available in date range
-    // get user input
-    // get room list
-    // filter rooms available in date range
-
-    // in price range
-
-    // by room type
-
-    // containing amenities
-
 }

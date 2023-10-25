@@ -1,6 +1,7 @@
 package com.stays;
 
 import com.stays.auth.AuthService;
+import com.stays.booking.BookingService;
 import com.stays.room.Room;
 import com.stays.room.RoomController;
 import com.stays.room.RoomService;
@@ -90,11 +91,13 @@ public class Main {
                 RoomController roomController = new RoomController(roomService);
                 List<Room> roomsList = roomController.getRoomsInRange(input.getArguments());
 
-                System.out.println("You can book a room by using /book {room_number}");
-                int i = 0;
-                for (Room room : roomsList) {
-                    System.out.printf("%d. %s", ++i, room);
-                    currentRoomMap.put(i, room);
+                if (!roomsList.isEmpty()) {
+                    System.out.println("You can book a room by using /book {room_number}");
+                    int i = 0;
+                    for (Room room : roomsList) {
+                        System.out.printf("%d. %s", ++i, room);
+                        currentRoomMap.put(i, room);
+                    }
                 }
             }
 
@@ -103,7 +106,11 @@ public class Main {
                     System.out.println("There are no rooms to book!");
                 } else {
                     int roomNumber = Integer.parseInt(input.getArguments()[0]);
-                    System.out.println(currentRoomMap.get(roomNumber));
+                    Room chosenRoom = currentRoomMap.get(roomNumber);
+                    System.out.println(chosenRoom);
+                    System.out.println(chosenRoom.getId());
+
+                    BookingService.getInstance();
                 }
             }
         }

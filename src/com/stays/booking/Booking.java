@@ -1,10 +1,11 @@
 package com.stays.booking;
 
+import com.stays.util.DateRange;
+
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Booking {
     int userId;
     int roomId;
-    ArrayList<Date> dates;
+    ArrayList<DateRange> dates;
 }

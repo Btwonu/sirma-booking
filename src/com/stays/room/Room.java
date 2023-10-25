@@ -39,6 +39,10 @@ public abstract class Room {
         return this.bookedDates;
     }
 
+    public UUID getId() {
+        return this.id;
+    }
+
     int getFloor() {
         int x = this.roomNumber;
 
